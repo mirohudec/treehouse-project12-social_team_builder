@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+{% load accounts_extra %}
+{% block content %}
+<div class="circle--actions--bar">
+    <nav class="bounds">
+      <ul class="circle--pill--list">
+        <li><a href="applications.html">Applications</a></li>
+        <li><a class="selected" href="profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="bounds circle--page">
+    
+        
+<form action="" method="POST" id='myform' enctype="multipart/form-data">
+    <div class="circle--page--header circle--fluid">
+        <div class="circle--fluid--cell circle--fluid--primary">
+            <h2>Profile</h2>
+        </div>
+        <div class="circle--fluid--cell circle--fluid--secondary">
+            <input type="submit" value="Save Changes">
+        </div>
+    </div>
+    <div class="grid-70">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.name == 'image' %}
+            {% else %}
+                {{ field }}
+            {% endif %}
+        {% endfor %}
+    <h2>Past Projects</h2>
+      <table class="u-full-width circle--table">
+        <thead>
+          <tr>
+            <th>Project Title</th>
+            <th class="circle--cell--right">Project Needs</th>
+          </tr>
+        </thead>
+        {% for position in positions %}
+        <tbody>
+          <tr class="clickable-row" data-href="project.html">
+            <td>
+              <h3>{{ position.project.name|unslug_capitalize  }}</h3>
+            </td>
+            <td class="circle--cell--right">
+              <span class="secondary-label">{{ position.name }}</span>
+            </td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="grid-25 grid-push-5">
+            <div class="circle--secondary--module">
+                        
+                    <img id="blah" src="#"  class="circle--primary--avatar" style="display:none" />
+                    {% if from.image.widget.initial_text == 'Currently' %}
+                      
+                    {% else %}
+                        <a class="button">
+                                Add Image
+                                {{ form.image }}                                   
+                            </a>
+                    {% endif %}   
+                  </div>
+            <div class="circle--secondary--module">
+    <h3>My skills</h3>
+    <ul class="circle--clone--list" id='circle--clone--list_skill'>
+    {{ skills.management_form }}
+        <li>
+    {% for skill_form in skills %}      
+        {{ skill_form }}
+    {% endfor %}
+        </li>
+    </ul>
+    <li id="empty_form_skill" style="display:none">
+        {{ skills.empty_form }}
+    </li>
+    <a class="circle--clone--add"  id="add_more_skill">Add Skill</a>
+    </div>
+    <div class="circle--secondary--module">
+    <h3>My Projects</h3>
+    <ul class="circle--clone--list" id='circle--clone--list_project'>
+    {{ my_projects.management_form }}
+        <li>
+    {% for project_form in my_projects %}
+        {{ project_form }}      
+    {% endfor %}
+        </li>
+    <li id="empty_form_project" style="display:none">
+            {{ my_projects.empty_form }}
+        </li>
+    </ul>
+    <a class="circle--clone--add"  id="add_more_project">Add Project</a>
+</div>
+</form>
+</div>
+</div>
+{% endblock %}
