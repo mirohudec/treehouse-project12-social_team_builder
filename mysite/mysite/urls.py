@@ -26,5 +26,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('project/', include('project.urls')),
     path('', include('social_team_builder.urls'), name='social_team_builder'),
+    path('editor/', include('image_editor.urls'), name='editor'),
 ] + static(settings.MEDIA_URL,
            document_root=settings.MEDIA_ROOT)

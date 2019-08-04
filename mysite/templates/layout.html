@@ -59,6 +59,9 @@
                 <li><a href="{% url 'account_logout' %}">Log Out</a></li>
                 <li><a href="{% url 'project:applications' %}">Applications</a></li>
                 <li><a href="{% url 'accounts:profile_home'  %}">{{ request.user.username }}</a></li>
+                {% if request.user.image %}
+                    <img id="blah" src="/media/{{ request.user.image }}" class="fit-avatar">
+                {% endif %}
             {% else %}
                 <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
                 <li><a href="{% url 'account_login' %}">Log In</a></li>

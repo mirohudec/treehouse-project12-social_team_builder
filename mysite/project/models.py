@@ -13,7 +13,9 @@ class Project(models.Model):
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse_lazy('project:project_detail', kwargs={'username': self.created_by.username, 'slug': self.name})
+        return reverse_lazy(
+            'project:project_detail', 
+            kwargs={'username': self.created_by.username, 'slug': self.name})
 
 
 class Positions(models.Model):

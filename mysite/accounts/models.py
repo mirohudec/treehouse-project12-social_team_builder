@@ -19,8 +19,10 @@ class UserManager(BaseUserManager):
             email,
             password=password
         )
+        user.is_superuser = True
         user.is_staff = True
-        user.is_admin = True
+        # set username to string before @
+        user.username = email.split('@')[0]
         user.save()
         return user
 

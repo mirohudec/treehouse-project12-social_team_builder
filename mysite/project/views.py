@@ -1,19 +1,18 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
+from django.db.models import Q
+from django.http import Http404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import (
     UpdateView, DetailView, DeleteView, CreateView, ListView)
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.db.models import Q
-from django.core.exceptions import PermissionDenied
-from django.http import Http404
-from django.core.mail import send_mail
+
+from . import forms
 from . import models
 from project.models import Applicant, Positions
 from django.contrib import messages
-
-from . import forms
 
 
 class ProjectDetailView(DetailView):
@@ -21,8 +20,9 @@ class ProjectDetailView(DetailView):
     model = models.Project
 
     def get_object(self):
-        return self.model.objects.filter(created_by__username=self.kwargs.get('username'),
-                                         name=self.kwargs.get('slug')).first()
+        return self.model.objects.filter(
+            created_by__username=self.kwargs.get('username'),
+            name=self.kwargs.get('slug')).first()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -118,7 +118,8 @@ class ApplicationsListView(ListView):
 
     def get_queryset(self):
         model = Applicant
-        if not model.objects.filter(position__project__created_by=self.request.user):
+        if not model.objects.filter(
+            position__project__created_by=self.request.user):
             return model.objects.none()
         if 'status' in self.request.GET:
             status = self.request.GET['status']
@@ -156,7 +157,9 @@ class ApplicationsListView(ListView):
         else:
             needs_q = Q()
 
-        return model.objects.filter(status_q & project_q & needs_q & Q(position__project__created_by=self.request.user)).all()
+        return model.objects.filter(
+            status_q & project_q & needs_q & Q(
+                position__project__created_by=self.request.user)).all()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -187,14 +190,15 @@ def application_accept(request, id):
         position.save()
         send_mail(
             'Application approved',
-            f'You were accepted for position: {position.name}.' +
+            f'You were accepted for position: {position.name}. ' +
             f'Contact {position.user.email} for more information.',
             'stb.project12@gmailcom',
             [f'{application.user.email}'],
             fail_silently=False
         )
         messages.success(request,
-                         f'Email sent to accepted applicant: {application.user.username}')
+                         f'Email sent to accepted applicant: ' + 
+                         f'{application.user.username}')
     else:
         raise PermissionDenied()
     return redirect(request.META.get('HTTP_REFERER'))
@@ -214,7 +218,8 @@ def application_reject(request, id):
             fail_silently=False
         )
         messages.success(request,
-                         f'Email sent to rejected applicant: {application.user.username}')
+                         f'Email sent to rejected applicant: ' + 
+                         f'{application.user.username}')
     else:
         raise PermissionDenied()
     return redirect(request.META.get('HTTP_REFERER'))
@@ -235,5 +240,6 @@ def application_apply(request, id):
             position=position
         )
         messages.success(
-            request, f'Successfully applied to the position of {position.name}')
+            request, f'Successfully applied to the position of ' + 
+            f'{position.name}')
     return redirect(request.META.get('HTTP_REFERER'))

@@ -1,7 +1,8 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.forms import inlineformset_factory
 from django_summernote import widgets
-from django import forms
+
 from project import models
 from .models import User
 

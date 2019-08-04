@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'image_editor',
     'social_team_builder',
     'django_summernote',
     'accounts',
@@ -162,3 +163,5 @@ SUMMERNOTE_CONFIG = {
 }
 
 LOGIN_REDIRECT_URL = '/'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880

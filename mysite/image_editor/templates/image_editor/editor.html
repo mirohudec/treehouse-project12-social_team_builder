@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="{% static "css/editor.css" %}">
+        <script type="text/javascript" src="{% static "js/editor.js" %}"></script>
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="container" ondragover="event.preventDefault()">
+            
+            <div id="resize-container" >
+                    <span id='resize-ne' draggable="true"></span>
+                    <span id='resize-nw' draggable="true"></span>
+                    <span id='resize-se' draggable="true"></span>
+                    <span id='resize-sw' draggable="true"></span>
+                </div>
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <div class="upload" id="upload">
+                <label for="input">
+                    <img src="{% static 'images/google/add-plus-button.svg' %}" alt="" class="svg-img add" id="add"/>
+                    <p class="add_text">Choose File</p>
+                </label>
+                    
+                <input id="input" type="file"/>
+            </div>
+        </div>
+        
+			<div id="buttons">
+				<img src="{% static 'images/google/crop-tool-button.svg' %}" alt="" class="svg-img" id="crop_image"/>
+				<img src="{% static 'images/google/rotate-to-left-button.svg' %}" id="rotate_left" class="svg-img" alt="" />
+                <img src="{% static 'images/google/rotate-to-right-button.svg' %}" id="rotate_right" alt="" class="svg-img" />
+                <img src="{% static 'images/google/flip-button.svg' %}" alt="" id="flip_H" class="svg-img" />
+                <img src="{% static 'images/google/flip-button.svg' %}" alt="" id="flip_V" class="svg-img"/> 
+                <form action="#" method="POST" name="image_edit">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <label for="save-button">
+                        <img src="{% static 'images/google/verification-mark.svg' %}" alt="" id="save_image" class="svg-img" />
+                    </label>
+                    <input type="submit" value="Save" id="save-button" hidden>
+                </form>    
+                <img src="{% static 'images/google/clear-button.svg' %}" alt="" id="remove_image" class="svg-img clear" />
+                 <a href="{% url 'social_team_builder:home' %}"><img src="{% static 'images/google/back-button.svg' %}" alt="" class="svg-img" /></a> 
+            </div> 
+            
+		
+	</body>
+</html>

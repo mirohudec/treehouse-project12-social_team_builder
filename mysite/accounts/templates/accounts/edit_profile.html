@@ -9,9 +9,7 @@
       </ul>
     </nav>
   </div>
-  <div class="bounds circle--page">
-    
-        
+  <div class="bounds circle--page">      
 <form action="" method="POST" id='myform' enctype="multipart/form-data">
     <div class="circle--page--header circle--fluid">
         <div class="circle--fluid--cell circle--fluid--primary">
@@ -62,6 +60,9 @@
                 <a class="button">
                     Upload Photo
                     <input type="file" name="image" accept="image/*" id="id_image">                                  
+                </a>
+                <a class="button" href="{% url 'image_editor:edit' %}">
+                    Photo Editor                                  
                 </a>
                 {% if user.image %}
                     <div>

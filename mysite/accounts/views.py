@@ -1,10 +1,11 @@
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import (
     TemplateView, FormView, UpdateView, DetailView)
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 from . import forms
 from . import models
 from project.models import Positions, Skill, MyProject
@@ -33,6 +34,7 @@ class ViewProfileView(DetailView):
     model = models.User
 
     def get_object(self, queryset=None):
+        # get slug from path
         path = self.request.path
         username = path.replace('/profile/view/', '')
         return self.model.objects.get(username=username)

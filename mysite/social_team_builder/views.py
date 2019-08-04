@@ -1,8 +1,9 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import ListView
+
 from project import models
 from project.models import Applicant
-from django.db.models import Q
 
 
 class HomeView(ListView):
@@ -10,6 +11,7 @@ class HomeView(ListView):
     model = models.Positions
 
     def get_queryset(self):
+        # user is searching
         if 'search' in self.request.GET:
             search = self.request.GET['search']
             pos_name = Q(name__icontains=search)
@@ -24,6 +26,7 @@ class HomeView(ListView):
                  project_desc) &
                 accepted
             ).all()
+        # user is using filter for my skills
         elif 'position' in self.request.GET:
             position = self.request.GET['position']
             if position == 'all':
@@ -35,20 +38,26 @@ class HomeView(ListView):
                     pos_queryset = self.model.objects.filter(
                         accepted=False).all().values_list('name')
                     positions = list(pos_queryset)
+                    # find the common value between skills and position 
+                    # to offer position based on user skills
                     intersection = []
                     for skill in skills:
                         for position in positions:
                             if skill[0].lower() in position[0].lower():
                                 intersection.append(position[0])
-                    return self.model.objects.filter(name__in=intersection).all()
+                    return self.model.objects.filter(
+                        name__in=intersection).all()
+            # user is using filter in home page
             else:
                 return self.model.objects.filter(name=position).all()
         else:
+            # basic home page with all open positions
             return self.model.objects.filter(accepted=False).all()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['applications'] = Applicant.objects.filter(position__accepted=False).all()
+        data['applications'] = Applicant.objects.filter(
+            position__accepted=False).all()
         if 'search' in self.request.GET:
             data['search'] = self.request.GET['search']
         if 'position' in self.request.GET:

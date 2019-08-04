@@ -1,8 +1,9 @@
+from django import forms
 from django.contrib.auth import get_user_model
 from django.forms import inlineformset_factory
 from django.forms import widgets
 from django_summernote.widgets import SummernoteWidget
-from django import forms
+
 from . import models
 
 
@@ -19,7 +20,7 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].label = ""
-        self.fields['name'].widget.attrs['placeholder'] = "Full Name"
+        self.fields['name'].widget.attrs['placeholder'] = "Project Name"
         self.fields['name'].widget.attrs['class'] = 'circle--input--h1'
         self.fields['description'].label = ""
         self.fields['description'].widget.attrs['placeholder'] = "Tell us about yourself..."
@@ -79,8 +80,9 @@ class MyProjectForm(forms.Form):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['projects'].label = ''
-        self.fields['projects'].choices = [('all', 'All Projects')] + [(
-            project.name, project.name) for project in models.Project.objects.filter(created_by=user).all()]
+        self.fields['projects'].choices = [('all', 'All Projects')] + [
+            (project.name, project.name) for project in models.Project.objects.filter(
+                created_by=user).all()]
 
 
 class NeedForm(forms.Form):
@@ -92,5 +94,7 @@ class NeedForm(forms.Form):
         project = kwargs.pop('project')
         super().__init__(*args, **kwargs)
         self.fields['needs'].label = ""
-        self.fields['needs'].choices = [('all', 'All Needs')] + [(
-            project.name, project.name) for project in models.Positions.objects.filter(user=user, project__name=project).all()]
+        self.fields['needs'].choices = [('all', 'All Needs')] + [
+            (project.name, project.name) for project in models.Positions.objects.filter(
+            user=user, 
+            project__name=project).all()]

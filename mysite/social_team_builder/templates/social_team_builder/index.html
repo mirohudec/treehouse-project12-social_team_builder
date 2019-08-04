@@ -62,7 +62,7 @@
         <tbody>
             {% for position in object_list %}
                 <tr  >
-                    <td class="clickable" data-href="{% url 'project:project_detail' position.user.username position.project.name %}">
+                    <td class="clickable clickable-row" data-href="{% url 'project:project_detail' position.user.username position.project.name %}">
                         <h3>{{ position.project.name|unslug_capitalize }}</h3>
                     </td>
                     <td class="circle--cell--right">
