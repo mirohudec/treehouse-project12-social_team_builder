@@ -2,11 +2,12 @@ from django.contrib.auth import get_user_model
 from django.forms import inlineformset_factory
 from django_summernote import widgets
 from django import forms
-from . import models
+from project import models
+from .models import User
 
 
 class ProfileForm(forms.ModelForm):
-    bio = forms.CharField(widget=widgets.SummernoteWidget())
+    bio = forms.CharField(widget=widgets.SummernoteWidget(), required=False)
 
     class Meta:
         model = get_user_model()
@@ -48,8 +49,8 @@ class MyProjectForm(forms.ModelForm):
         self.fields['url'].widget.attrs['placeholder'] = "Project URL"
 
 
-SkillFormSet = inlineformset_factory(models.User, models.Skill, form=SkillForm,
+SkillFormSet = inlineformset_factory(User, models.Skill, form=SkillForm,
                                      extra=1)
 
-MyProjectFormSet = inlineformset_factory(models.User, models.MyProject,
+MyProjectFormSet = inlineformset_factory(User, models.MyProject,
                                          form=MyProjectForm, extra=1)

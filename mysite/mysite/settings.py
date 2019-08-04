@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'social_team_builder',
     'django_summernote',
     'accounts',
+    'project',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +160,5 @@ SUMMERNOTE_CONFIG = {
         'height': '450'
     }
 }
+
+LOGIN_REDIRECT_URL = '/'

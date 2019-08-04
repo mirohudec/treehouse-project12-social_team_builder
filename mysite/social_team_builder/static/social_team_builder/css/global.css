@@ -2117,6 +2117,75 @@ input[type='checkbox']{
     display: inline;
 }
 
+.errorlist {
+    color: red;
+    list-style: none;
+    margin: auto;
+    width: fit-content;
+}
+
+label {
+    display:inline-block;
+    padding-right: 0.5rem;
+}
+
+#circle--clone--list_skill li {
+    margin-bottom: 0px;
+}
+#circle--clone--list_project li {
+    margin-bottom: 0px;
+}
+
+
+#reject {
+    color: red
+    
+}
+
+#button {
+    z-index: 100;
+}
+
+.messages {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 0px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 4rem;
+    width: 100%;
+
+}.warning {
+    color: white;
+    border: 4px solid #fc4e03;
+    background-color: #fc4e03;
+}
+
+.success {
+    color: white;
+    border: 4px solid #0e9622;
+    background-color: #0e9622;
+}
+
+#form_search {
+    margin-bottom: 0px;
+}
+
+.rejected {
+    color: red
+}
+
+.applied {
+    color: black
+}
+
+.clickable {
+    cursor:pointer;
+}
+.clickable h3 {
+    color: #537d7b;
+}
 
 /*  
 END

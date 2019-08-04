@@ -1,14 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import (
     TemplateView, FormView, UpdateView, DetailView)
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . import forms
 from . import models
+from project.models import Positions, Skill, MyProject
 
 
-class ProfileView(LoginRequiredMixin, DetailView):
+class ProfileView(DetailView):
     template_name = 'accounts/profile.html'
     model = models.User
 
@@ -17,36 +19,49 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['skills'] = forms.SkillFormSet(
-                self.request.POST, instance=self.object)
-            data['my_projects'] = forms.MyProjectFormSet(
-                self.request.POST, instance=self.object)
-        else:
-            data['skills'] = forms.SkillFormSet(
-                instance=self.object)
-            data['my_projects'] = forms.MyProjectFormSet(
-                instance=self.object)
-        data['positions'] = models.Positions.objects.all().filter(
-            user=self.request.user, accepted=True)
-        data['skills'] = models.Skill.objects.all().filter(
-            user=self.request.user)
-        data['my_projects'] = models.MyProject.objects.all().filter(
-            user=self.request.user)
+        data['positions'] = Positions.objects.all().filter(
+            user=self.object, accepted=True)
+        data['skills'] = Skill.objects.all().filter(
+            user=self.object)
+        data['my_projects'] = MyProject.objects.all().filter(
+            user=self.object)
+        return data
+
+
+class ViewProfileView(DetailView):
+    template_name = 'accounts/profile.html'
+    model = models.User
+
+    def get_object(self, queryset=None):
+        path = self.request.path
+        username = path.replace('/profile/view/', '')
+        return self.model.objects.get(username=username)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['positions'] = Positions.objects.all().filter(
+            user=self.object, accepted=True)
+        data['skills'] = Skill.objects.all().filter(
+            user=self.object)
+        data['my_projects'] = MyProject.objects.all().filter(
+            user=self.object)
         return data
 
 
 class EditProfileView(LoginRequiredMixin, UpdateView):
     template_name = 'accounts/edit_profile.html'
     form_class = forms.ProfileForm
-    success_url = reverse_lazy('accounts:profile')
     model = models.User
 
     def get_object(self, queryset=None):
         return self.model.objects.get(email=self.request.user.email)
 
+    def get_success_url(self):
+        return reverse_lazy('social_team_builder:home')
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+        data['user'] = self.request.user
         if self.request.POST:
             data['skills'] = forms.SkillFormSet(
                 self.request.POST, instance=self.object)
@@ -57,7 +72,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
                 instance=self.object)
             data['my_projects'] = forms.MyProjectFormSet(
                 instance=self.object)
-        data['positions'] = models.Positions.objects.all().filter(
+        data['positions'] = Positions.objects.all().filter(
             user=self.request.user, accepted=True)
         return data
 
