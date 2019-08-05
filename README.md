@@ -8,6 +8,7 @@ You're going to build a site where people can sign up to find projects that need
 
 ## Comments
 
+* going for Exceeds Expectations
 * sending emails for reject and accept aplications
 * displaying simple message for: accept, reject and applying for 5 seconds
 * selecting My Skills shows positions suitable for your skills
