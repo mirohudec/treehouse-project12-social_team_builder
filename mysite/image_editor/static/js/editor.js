@@ -79,8 +79,8 @@ let resizeNE, resizeNW, resizeSE, resizeSW;
 let NE, NW, SE, SW;
 
 const remove_image = (ctx) => {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    let input = document.getElementById('id_hidden');
+	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+	let input = document.getElementById('id_hidden');
 	input.value = '';
 };
 

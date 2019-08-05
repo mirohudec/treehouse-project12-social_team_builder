@@ -1,4 +1,4 @@
-# treehouse-project12-social_team_builder
+# [treehouse-project12-social_team_builder](https://teamtreehouse.com/projects/social-team-builder)
 
 It's time to build a single, large project that pull everything together!
 
@@ -11,3 +11,4 @@ You're going to build a site where people can sign up to find projects that need
 * sending emails for reject and accept aplications
 * displaying simple message for: accept, reject and applying for 5 seconds
 * selecting My Skills shows positions suitable for your skills
+* editor for image is taken from [Project 7 User Profile with Django](https://github.com/CritRate/treehouse-project7-user_profile_with_django) tl;dr works in every browser except firefox
