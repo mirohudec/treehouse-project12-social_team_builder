@@ -16,19 +16,10 @@
         </div>
         <div class="bounds circle--page circle--article">
             <div class="grid-70">
-                {{ form.errors }}
                 <div class="circle--article--body">
                     {{ form.name }}
                     {{ form.description }}
                 </div>
-                <!-- <ul class="circle--group--list circle--clone--list">
-                    <li>
-                        <input type="text" class="circle--input--h3" placeholder="Position Title" value="iOS Developer" />
-                        <textarea placeholder="Position description...">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-                        <a class="circle--clone--add">Add Position</a>
-                        <a class="circle--clone--remove">Remove</a>
-                    </li>
-                </ul> -->
                 <div class="circle--project--positions">
                     <h2>Positions</h2>
                     <ul class="circle--group--list circle--clone--list" id='circle--clone--list_position'>
@@ -36,7 +27,6 @@
                         {% for position in positions %}
                             <li>
                                 {{ position }}
-                                <a class="circle--clone--remove">Remove</a>
                             </li>
                         {% endfor %}
                     </ul>

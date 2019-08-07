@@ -2156,7 +2156,15 @@ label {
     height: 4rem;
     width: 100%;
 
-}.warning {
+}
+
+.warning {
+    color: white;
+    border: 4px solid #fc4e03;
+    background-color: #fc4e03;
+}
+
+.error {
     color: white;
     border: 4px solid #fc4e03;
     background-color: #fc4e03;
@@ -2203,6 +2211,18 @@ label {
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+}
+
+.errorlist  {
+    list-style: none;
+}
+
+.errorlist li  {
+    border-bottom: 0px;
+}
+
+.errorlist li::before {
+    content: none;
 }
 
 /*  

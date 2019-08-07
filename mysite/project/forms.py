@@ -37,7 +37,7 @@ class PositionForm(forms.ModelForm):
     description = forms.CharField(
         widget=SummernoteWidget(
             attrs={'summernote': {'width': '100%', 'height': '200px'}}
-        ), required=False)
+        ))
 
     class Meta:
         model = models.Positions
@@ -53,6 +53,7 @@ class PositionForm(forms.ModelForm):
         self.fields['time'].label = ""
         self.fields['time'].widget.attrs['placeholder'] = "Position time involvement..."
         self.fields['time'].widget.attrs['class'] = 'circle--input--h3'
+        self.fields['time'].required = False
 
 
 PositionFormSet = inlineformset_factory(
@@ -96,5 +97,5 @@ class NeedForm(forms.Form):
         self.fields['needs'].label = ""
         self.fields['needs'].choices = [('all', 'All Needs')] + [
             (project.name, project.name) for project in models.Positions.objects.filter(
-            user=user, 
-            project__name=project).all()]
+                user=user,
+                project__name=project).all()]

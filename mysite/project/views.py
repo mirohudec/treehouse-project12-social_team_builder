@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -63,6 +64,9 @@ class ProjectEditView(UpdateView):
                 pos = position.save(commit=False)
                 pos.user = self.request.user
             positions.save()
+        else:
+            messages.warning(self.request, 'Position form has an error')
+            return super().form_invalid(form)
         return super().form_valid(form)
 
 
@@ -119,7 +123,7 @@ class ApplicationsListView(ListView):
     def get_queryset(self):
         model = Applicant
         if not model.objects.filter(
-            position__project__created_by=self.request.user):
+                position__project__created_by=self.request.user):
             return model.objects.none()
         if 'status' in self.request.GET:
             status = self.request.GET['status']
@@ -197,7 +201,7 @@ def application_accept(request, id):
             fail_silently=False
         )
         messages.success(request,
-                         f'Email sent to accepted applicant: ' + 
+                         f'Email sent to accepted applicant: ' +
                          f'{application.user.username}')
     else:
         raise PermissionDenied()
@@ -218,7 +222,7 @@ def application_reject(request, id):
             fail_silently=False
         )
         messages.success(request,
-                         f'Email sent to rejected applicant: ' + 
+                         f'Email sent to rejected applicant: ' +
                          f'{application.user.username}')
     else:
         raise PermissionDenied()
@@ -240,6 +244,6 @@ def application_apply(request, id):
             position=position
         )
         messages.success(
-            request, f'Successfully applied to the position of ' + 
+            request, f'Successfully applied to the position of ' +
             f'{position.name}')
     return redirect(request.META.get('HTTP_REFERER'))
